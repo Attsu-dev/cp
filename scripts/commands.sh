@@ -1,4 +1,4 @@
-alias g='g++ -std=c++23 -I ~/cp/library/ -I ~/cp/ac-library -g -Wall -Wextra -fsanitize=address,undefined'
+alias g='g++ -std=c++23 -I ~/cp/library/ -I ~/cp/ac-library -I ~/cp/nyaan-library -g -Wall -Wextra -fsanitize=address,undefined'
 
 function n() {
     cp ~/cp/templates/main.cpp main.cpp
@@ -9,7 +9,7 @@ function n() {
 
 function t() {
     [[ -f main.cpp ]] || return
-    oj-bundle -I ~/cp/library/ main.cpp > bundled.cpp 2>/dev/null || return
+    oj-bundle -I ~/cp/library/ -I ~/cp/nyaan-library main.cpp > bundled.cpp 2>/dev/null || return
     python3 ~/cp/scripts/cleaner.py < bundled.cpp > submit.cpp || return
     rm bundled.cpp
 
@@ -119,6 +119,7 @@ function save-lib() (
 
     apply-settings
 
+    cd ~/cp/
     git add .
     git commit -m "$commit_message"
     git push origin main

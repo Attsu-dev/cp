@@ -1,0 +1,6 @@
+{
+    "files.readonlyInclude": {
+        "ac-library/**": true,
+        "nyaan-library/**": true
+    }
+}
