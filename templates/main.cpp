@@ -9,3 +9,7 @@ int main() {
   cin.tie(nullptr);
   solve();
 }
+
+// library URL
+// https://github.com/Attsu-dev/cp
+// https://nyaannyaan.github.io/library/
