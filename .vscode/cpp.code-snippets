@@ -1,0 +1,173 @@
+{
+    "幅優先探索": {
+        "prefix": "bfs",
+        "body": [
+            "VLL dist(G.size(), -1);",
+            "queue<ll> q;",
+            "",
+            "dist[s] = 0;",
+            "q.push(s);",
+            "",
+            "while (!q.empty()) {",
+            "  ll v = q.front();",
+            "  q.pop();",
+            "",
+            "  for (ll to : G[v]) {",
+            "    if (dist[to] != -1) continue;",
+            "",
+            "    dist[to] = dist[v] + 1;",
+            "    q.push(to);",
+            "  }",
+            "}"
+        ]
+    },
+    "vector入力": {
+        "prefix": "cinv",
+        "body": [
+            "for (auto& x : $1) cin >> x;",
+            "$0"
+        ]
+    },
+    "2次元vector入力": {
+        "prefix": "cinvv",
+        "body": [
+            "for (auto& v : $1) for (auto& x : v) cin >> x;",
+            "$0"
+        ]
+    },
+    "ダイクストラ": {
+        "prefix": "dijkstra",
+        "body": [
+            "VLL dist(G.size(), INF);",
+            "priority_queue<array<ll, 2>, vector<array<ll, 2>>, greater<array<ll, 2>>> pq;",
+            "",
+            "dist[s] = 0;",
+            "pq.push({0, s});",
+            "",
+            "while (!pq.empty()) {",
+            "  auto [d, v] = pq.top();",
+            "  pq.pop();",
+            "  if (d != dist[v]) continue;",
+            "",
+            "  for (auto [to, cost] : G[v]) {",
+            "    if (chmin(dist[to], d + cost)) {",
+            "      pq.push({dist[to], to});",
+            "    }",
+            "  }",
+            "}"
+        ]
+    },
+    "グリッド幅優先探索": {
+        "prefix": "grid_bfs",
+        "body": [
+            "VVLL dist(H, VLL(W, -1));",
+            "queue<array<ll, 2>> q;",
+            "",
+            "dist[s.first][s.second] = 0;",
+            "q.push({s.first, s.second});",
+            "",
+            "while (!q.empty()) {",
+            "  auto [i, j] = q.front();",
+            "  q.pop();",
+            "",
+            "  rep(dir, 4) {",
+            "    ll ni = i + DX[dir];",
+            "    ll nj = j + DY[dir];",
+            "    if (!inside(ni, nj, H, W)) continue;",
+            "    if (S[ni][nj] == '#') continue;",
+            "    if (dist[ni][nj] != -1) continue;",
+            "",
+            "    dist[ni][nj] = dist[i][j] + 1;",
+            "    q.push({ni, nj});",
+            "  }",
+            "}"
+        ]
+    },
+    "グリッドダイクストラ": {
+        "prefix": "grid_dijkstra",
+        "body": [
+            "VVLL dist(H, VLL(W, INF));",
+            "priority_queue<array<ll, 3>, vector<array<ll, 3>>, greater<array<ll, 3>>> pq;",
+            "",
+            "dist[s.first][s.second] = 0;",
+            "pq.push({0, s.first, s.second});",
+            "",
+            "while (!pq.empty()) {",
+            "  auto [d, i, j] = pq.top();",
+            "  pq.pop();",
+            "  if (d != dist[i][j]) continue;",
+            "",
+            "  rep(dir, 4) {",
+            "    ll ni = i + DX[dir];",
+            "    ll nj = j + DY[dir];",
+            "    if (!inside(ni, nj, H, W)) continue;",
+            "    if (S[ni][nj] == INF) continue;",
+            "",
+            "    if (chmin(dist[ni][nj], d + S[ni][nj])) {",
+            "      pq.push({dist[ni][nj], ni, nj});",
+            "    }",
+            "  }",
+            "}"
+        ]
+    },
+    "めぐる式二分探索": {
+        "prefix": "meguru",
+        "body": [
+            "auto isOK = [&](${1:ll} X) -> bool {",
+            "",
+            "};",
+            "",
+            "${1:ll} ok = 1;",
+            "${1:ll} ng = INF;",
+            "",
+            "while (abs(ok - ng) > 1) {",
+            "  ${1:ll} mid = (ok + ng) / 2;",
+            "  if (isOK(mid))",
+            "    ok = mid;",
+            "  else",
+            "    ng = mid;",
+            "}",
+            "",
+            "print(ok);"
+        ]
+    },
+    "mintを定義する": {
+        "prefix": "modint",
+        "body": [
+            "#include <atcoder/modint>",
+            "using mint = atcoder::modint998244353;"
+        ]
+    },
+    "マルチテストケース": {
+        "prefix": "mtest",
+        "body": [
+            "int T; cin >> T; while(T--)"
+        ]
+    },
+    "グラフ入力": {
+        "prefix": "read_graph",
+        "body": [
+            "VVLL G(N);",
+            "rep(i, M) {",
+            "  ll u, v;",
+            "  cin >> u >> v;",
+            "  u--, v--;",
+            "  G[u].emplace_back(v);",
+            "  G[v].emplace_back(u);",
+            "}"
+        ]
+    },
+    "グラフ入力（重み付き）": {
+        "prefix": "read_graph_weighted",
+        "body": [
+            "VVPLL G(N);",
+            "rep(i, M) {",
+            "  ll u, v, w;",
+            "  cin >> u >> v >> w;",
+            "  u--, v--;",
+            "  G[u].emplace_back(v, w);",
+            "  G[v].emplace_back(u, w);",
+            "}"
+        ]
+    }
+}

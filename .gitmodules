@@ -1,0 +1,6 @@
+[submodule "third_party/acl"]
+	path = third_party/acl
+	url = https://github.com/atcoder/ac-library.git
+[submodule "third_party/nyaan"]
+	path = third_party/nyaan
+	url = https://github.com/NyaanNyaan/library.git
