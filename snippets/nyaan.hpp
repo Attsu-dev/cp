@@ -1,0 +1,1 @@
+#include "nyaan$1"

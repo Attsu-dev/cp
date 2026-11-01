@@ -1,4 +1,11 @@
 {
+    "atcoder": {
+        "prefix": "atcoder",
+        "body": [
+            "#include <atcoder${1:/all}>",
+            "using namespace atcoder;"
+        ]
+    },
     "幅優先探索": {
         "prefix": "bfs",
         "body": [
@@ -142,6 +149,12 @@
         "prefix": "mtest",
         "body": [
             "int T; cin >> T; while(T--)"
+        ]
+    },
+    "nyaan": {
+        "prefix": "nyaan",
+        "body": [
+            "#include \"nyaan$1\""
         ]
     },
     "グラフ入力": {
