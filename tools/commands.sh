@@ -70,7 +70,7 @@ function to() {
 }
 
 function randomtest-init() {
-    cp "$CP_ROOT/templates/generate.py ."
+    cp "$CP_ROOT/templates/generate.py" .
     cp main.cpp naive.cpp
     code naive.cpp generate.py
 }
