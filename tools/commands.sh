@@ -15,7 +15,7 @@ function g() {
 # 例: n https://atcoder.jp/contests/abc001/tasks/abc001_1
 function n() {
     cp "$CP_ROOT/templates/main.cpp" main.cpp || return
-    rm -r test/
+    rm -rf test/
     oj d "$1"
     code --goto main.cpp:4:3
 }
