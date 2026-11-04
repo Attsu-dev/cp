@@ -1,3 +1,6 @@
+# オプションを指定してコンパイル（追加オプションも指定可能）
+# 例1: g main.cpp
+# 例2: g main.cpp -O2 -o main
 function g() {
     g++ -std=c++23 \
         -I "$CP_ROOT/library" \
@@ -8,6 +11,8 @@ function g() {
         "$@"
 }
 
+# 現在のディレクトリに解答コードとサンプルを用意する
+# 例: n https://atcoder.jp/contests/abc001/tasks/abc001_1
 function n() {
     cp "$CP_ROOT/templates/main.cpp" main.cpp || return
     rm -r test/
@@ -15,6 +20,9 @@ function n() {
     code --goto main.cpp:4:3
 }
 
+# 提出コードをクリップボードにコピー
+# 例1: s
+# 例2: s -acl （ACLも展開する）
 function s() {
     [[ -f main.cpp ]] || return
     oj-bundle \
@@ -36,12 +44,17 @@ function s() {
     printf '📋 Copied submit.cpp to clipboard!\n'
 }
 
+# 提出コードをクリップボードにコピー & サンプルテストを実行
+# 例1: t
+# 例2: t -acl （ACLも展開する）
 function t() {
     s "$@" || return
     g main.cpp || return
     oj t
 }
 
+# AtCoderのコンテストを開始する
+# 例: atcoder-start abc001
 function atcoder-start() {
     cd "$CP_ROOT/contests/atcoder"
     acc n "$1" || return
@@ -49,6 +62,8 @@ function atcoder-start() {
     code --goto main.cpp:4:3
 }
 
+# Codeforcesのコンテストを開始する
+# 例: cf-start 1234
 function cf-start() {
     local contestID="$1"
     local root="$CP_ROOT/contests/cf/$contestID"
@@ -64,17 +79,23 @@ function cf-start() {
     code --goto main.cpp:4:3
 }
 
+# 同じコンテスト内の別の問題へ移動する
+# 例: to b
 function to() {
     cd "../$1/" || return
     code --goto main.cpp:4:3
 }
 
+# ストレステスト用のコードと入力生成器を作成する
+# 例: stress-init
 function stress-init() {
     cp "$CP_ROOT/templates/generate.py" .
     cp main.cpp naive.cpp
     code naive.cpp generate.py
 }
 
+# ストレステストを実行する
+# 例: stress
 function stress() {
     g -O2 main.cpp || return
     g -O2 naive.cpp -o naive || return
@@ -119,6 +140,8 @@ function stress() {
     done
 }
 
+# ストレステストで失敗したテストケースをtest/に保存する
+# 例: stress-save
 stress-save() {
     mkdir -p test || return
 
@@ -133,6 +156,8 @@ stress-save() {
     printf 'Saved: test/stress-%d.{in,out}\n' "$n"
 }
 
+# downloads/samples-?.zip を test/ に展開する
+# 例: zip2test A
 function zip2test() {
     unzip "$HOME/downloads/samples-$1.zip" -d test || return
     rm "$HOME/downloads/samples-$1.zip"*
@@ -141,12 +166,16 @@ function zip2test() {
     done
 }
 
+# シェル関数・スニペット・テンプレートの設定を反映する
+# 例: apply-settings
 function apply-settings() {
     source "$CP_ROOT/tools/commands.sh"
     python3 "$CP_ROOT/tools/make_snippets.py"
     cp "$CP_ROOT/templates/main.cpp" "$HOME/.config/atcoder-cli-nodejs/cpp/main.cpp"
 }
 
+# GitHubにライブラリを保存する
+# 例: save-lib update
 function save-lib() (
     local commit_message="${1:-update}"
 
@@ -158,4 +187,5 @@ function save-lib() (
     git push origin main
 )
 
+# acc のセッションが切れていないか確認する
 acc session 2>/dev/null | grep -qx 'OK' || echo "⚠️ acc のセッションが切れています！ https://pypi.org/project/aclogin/"
