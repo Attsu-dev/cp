@@ -69,55 +69,69 @@ function to() {
     code --goto main.cpp:4:3
 }
 
-function randomtest-init() {
+function stress-init() {
     cp "$CP_ROOT/templates/generate.py" .
     cp main.cpp naive.cpp
     code naive.cpp generate.py
 }
 
-function randomtest() (
-    g -O2 main.cpp || return 1
-    g -O2 naive.cpp -o naive || return 1
+function stress() {
+    g -O2 main.cpp || return
+    g -O2 naive.cpp -o naive || return
 
-    local tmp
-    tmp=$(mktemp -d) || return 1
-    trap 'rm -rf "$tmp"' EXIT
+    local tmp=".stress"
+    mkdir -p "$tmp" || return
 
     local i=0
 
     while true; do
         ((++i))
 
-        python3 generate.py > "$tmp/input" || return 1
-        ./a.out < "$tmp/input" > "$tmp/output" || return 1
-        ./naive < "$tmp/input" > "$tmp/expected" || return 1
+        python3 generate.py > "$tmp/input.txt" || return
+
+        ./naive < "$tmp/input.txt" > "$tmp/expected.txt" || {
+            printf '\nnaive.cpp failed\n' >&2
+            return 1
+        }
+
+        ./a.out < "$tmp/input.txt" > "$tmp/output.txt"
+        local status=$?
 
         printf '\rTested: %d cases' "$i"
 
-        if ! diff -q "$tmp/output" "$tmp/expected" > /dev/null; then
-            mkdir -p test || return 1
+        if (( status != 0 )) || ! diff -q "$tmp/output.txt" "$tmp/expected.txt" > /dev/null; then
 
-            local n=1
-            while [[ -e "test/random-$n.in" || -e "test/random-$n.out" ]]; do
-                ((++n))
-            done
+            printf '\n'
 
-            cp "$tmp/input" "test/random-$n.in"
-            cp "$tmp/expected" "test/random-$n.out"
+            if (( status != 0 )); then
+                printf '\nmain.cpp failed\n' >&2
+            fi
 
-            echo
-            echo "[input]"
-            cat "$tmp/input"
-            echo
-            echo "[output]"
-            cat "$tmp/output"
-            echo
-            echo "[expected]"
-            cat "$tmp/expected"
+            printf '\n[input]\n'
+            cat "$tmp/input.txt"
+            printf '\n[output]\n'
+            cat "$tmp/output.txt"
+            printf '\n[expected]\n'
+            cat "$tmp/expected.txt"
+
             return 1
         fi
     done
-)
+}
+
+stress-save() {
+    mkdir -p test || return
+
+    local n=1
+    while [[ -e "test/stress-$n.in" ]]; do
+        ((++n))
+    done
+
+    cp .stress/input.txt "test/stress-$n.in" || return
+    cp .stress/expected.txt "test/stress-$n.out" || return
+
+    printf 'Saved: test/stress-%d.{in,out}\n' "$n"
+}
 
 function zip2test() {
     unzip "$HOME/downloads/samples-$1.zip" -d test || return
