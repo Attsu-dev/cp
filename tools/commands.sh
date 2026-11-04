@@ -157,3 +157,5 @@ function save-lib() (
     git commit -m "$commit_message"
     git push origin main
 )
+
+acc session 2>/dev/null | grep -qx 'OK' || echo "⚠️ acc のセッションが切れています！ https://pypi.org/project/aclogin/"
