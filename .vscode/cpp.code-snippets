@@ -1,5 +1,5 @@
 {
-    "atcoder": {
+    "ACLをインクルード": {
         "prefix": "atcoder",
         "body": [
             "#include <atcoder${1:/all}>",
@@ -151,7 +151,7 @@
             "int T; cin >> T; while(T--)"
         ]
     },
-    "nyaan": {
+    "nyaan's libraryをインクルード": {
         "prefix": "nyaan",
         "body": [
             "#include \"nyaan$1\""
