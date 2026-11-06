@@ -35,8 +35,8 @@ void printvv(const auto& vv) { for (const auto& v : vv) printv(v); }
 void YesNo(bool b) { cout << (b ? "Yes" : "No") << '\n'; }
 bool chmax(auto& a, auto b) { return a < b ? a = b, 1 : 0; }
 bool chmin(auto& a, auto b) { return a > b ? a = b, 1 : 0; }
-ll sq(ll x) { return x * x; }
-ll cube(ll x) { return x * x * x; }
+template <class T> T sq(T x) { return x * x; }
+template <class T> T cube(T x) { return x * x * x; }
 ll digit_sum(ll n) { ll s = 0; for (; n; n /= 10) s += n % 10; return s; }
 ll floor_div(ll a, ll b) { ll q = a / b, r = a % b; return q - (r != 0 && ((r < 0) != (b < 0))); }
 ll ceil_div(ll a, ll b) { ll q = a / b, r = a % b; return q + (r != 0 && ((r < 0) == (b < 0))); }
